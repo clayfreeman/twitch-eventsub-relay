@@ -1,0 +1,36 @@
+{
+    "name": "clayfreeman/twitch-eventsub-relay",
+    "description": "Provides a CLI application that listens for Twitch EventSub webhook callbacks and relays them to connected TCP clients using a custom protocol.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Clay Freeman",
+            "email": "git@clayfreeman.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.1",
+        "psr/log": "^3.0",
+        "react/http": "^1.11",
+        "react/socket": "^1.16",
+        "symfony/console": "^6.4 || ^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "ClayFreeman\\Twitch\\EventSub\\": "src/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "*": false
+        },
+        "sort-packages": true,
+        "discard-changes": true
+    },
+    "bin": [
+        "bin/twitch-eventsub-relay"
+    ]
+}
