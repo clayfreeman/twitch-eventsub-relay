@@ -211,7 +211,7 @@ final class RelayCommand extends Command {
 
     $this->logger->warning('An incoming request did not pass signature verification (expected: {expected}, actual: {actual})', $context);
     $this->logger->debug('{request}', [
-      'request' => $this->getFormattedRequest($request),
+      'request' => \trim($this->getFormattedRequest($request)),
     ]);
   }
 
@@ -433,7 +433,7 @@ final class RelayCommand extends Command {
       }
 
       $this->logger->debug('{request}', [
-        'request' => $this->getFormattedRequest($request),
+        'request' => \trim($this->getFormattedRequest($request)),
       ]);
     });
 
@@ -468,7 +468,7 @@ final class RelayCommand extends Command {
     }
 
     $this->logger->debug('{request}', [
-      'request' => $this->getFormattedRequest($request),
+      'request' => \trim($this->getFormattedRequest($request)),
     ]);
 
     return $response;
@@ -505,7 +505,7 @@ final class RelayCommand extends Command {
     }
 
     $this->logger->debug('{request}', [
-      'request' => $this->getFormattedRequest($request),
+      'request' => \trim($this->getFormattedRequest($request)),
     ]);
 
     return $response;
