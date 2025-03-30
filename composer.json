@@ -31,6 +31,7 @@
         "discard-changes": true
     },
     "bin": [
-        "bin/twitch-eventsub-relay"
+        "bin/twitch-eventsub-relay",
+        "bin/twitch-eventsub-relay-client"
     ]
 }

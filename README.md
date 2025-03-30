@@ -31,21 +31,36 @@ This application listens on all addresses, so a firewall may be advisable.
 
 ```sh
 twitch-eventsub-relay [options] [--] <secret>
+twitch-eventsub-relay-client <host> <port> [timeout]
 ```
 
-### Arguments
+### Server
+
+#### Arguments
 
 | Argument | Description                                      |
 |----------|--------------------------------------------------|
 | `secret` | The secret used to verify incoming notifications |
 
-### Options
+#### Options
 
 | Option            | Description                                                                                                                     | Default |
 |-------------------|---------------------------------------------------------------------------------------------------------------------------------|---------|
 | `--http-port`     | The port on which the HTTP server should listen                                                                                 | `8000`  |
 | `--relay-port`    | The port on which the relay server should listen                                                                                | `8100`  |
 | `--ping-interval` | The amount of time in seconds before sending a `PING` command to relay connections, and to close connections without a response | `30`    |
+
+### Client
+
+The client can be used to connect to a relay server, respond to `PING` commands, decode relayed payloads, and handle connection timeouts automatically. It is recommended to pipe the output of the client to something which is capable of decoding and processing JSON data (e.g., `jq`).
+
+#### Arguments
+
+| Argument  | Description                                                                                                           |
+|-----------|-----------------------------------------------------------------------------------------------------------------------|
+| `host`    | The hostname or IP address of the relay server                                                                        |
+| `port`    | The port of the relay server                                                                                          |
+| `timeout` | The timeout duration in seconds (should be double that of the server's `--ping-interval` value; optional; default=60) |
 
 ## Protocol
 
