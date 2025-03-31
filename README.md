@@ -32,6 +32,7 @@ This application listens on all addresses, so a firewall may be advisable.
 ```sh
 twitch-eventsub-relay [options] [--] <secret>
 twitch-eventsub-relay-client <host> <port> [timeout]
+twitch-eventsub-relay-dispatcher <dropins> <host> <port> [timeout]
 ```
 
 ### Server
@@ -58,6 +59,19 @@ The client can be used to connect to a relay server, respond to `PING` commands,
 
 | Argument  | Description                                                                                                           |
 |-----------|-----------------------------------------------------------------------------------------------------------------------|
+| `host`    | The hostname or IP address of the relay server                                                                        |
+| `port`    | The port of the relay server                                                                                          |
+| `timeout` | The timeout duration in seconds (should be double that of the server's `--ping-interval` value; optional; default=60) |
+
+### Dispatcher
+
+The dispatcher leverages the relay client to listen for data, passing it to standard input for each executable file in the specified directory.
+
+#### Arguments
+
+| Argument  | Description                                                                                                           |
+|-----------|-----------------------------------------------------------------------------------------------------------------------|
+| `dropins` | The directory containing the executable files to run when data is received                                            |
 | `host`    | The hostname or IP address of the relay server                                                                        |
 | `port`    | The port of the relay server                                                                                          |
 | `timeout` | The timeout duration in seconds (should be double that of the server's `--ping-interval` value; optional; default=60) |

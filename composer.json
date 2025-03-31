@@ -32,6 +32,7 @@
     },
     "bin": [
         "bin/twitch-eventsub-relay",
-        "bin/twitch-eventsub-relay-client"
+        "bin/twitch-eventsub-relay-client",
+        "bin/twitch-eventsub-relay-dispatcher"
     ]
 }

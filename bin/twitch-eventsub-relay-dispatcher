@@ -1,0 +1,22 @@
+#!/bin/bash
+set -euo pipefail
+
+if [[ $# -lt 3 ]] || [ ! -d "$1" ]
+then
+  echo "Usage: $0 <dropins> <host> <port> [timeout]" >&2
+  exit 1
+fi
+
+DROPINS="$1"
+shift
+
+twitch-eventsub-relay-client "$@" | while read -r DATA
+do
+  for DROPIN in "$DROPINS"/*
+  do
+    if [ -f "$DROPIN" ] && [ -x "$DROPIN" ]
+    then
+      (echo "$DATA" | "$DROPIN" & disown) || true
+    fi
+  done
+done
