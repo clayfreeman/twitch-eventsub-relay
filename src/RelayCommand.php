@@ -333,7 +333,7 @@ final class RelayCommand extends Command {
 
     // Set the secret using the TWITCH_EVENTSUB_RELAY_SECRET environment
     // variable if the command-line argument was unspecified.
-    if ('' === $secret && '' !== $secret = $_ENV['TWITCH_EVENTSUB_RELAY_SECRET'] ?? '') {
+    if ($secret === '' && $secret = \getenv('TWITCH_EVENTSUB_RELAY_SECRET')) {
       $input->setArgument('secret', $secret);
     }
 
