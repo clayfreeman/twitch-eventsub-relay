@@ -13,13 +13,7 @@ SERVER="$1"
 PORT="$2"
 TIMEOUT="${3:-$DEFAULT_TIMEOUT}"
 
-if ! IP=$((getent hosts "$SERVER" | awk 'NR == 1 { print $1 }') 2>/dev/null)
-then
-  echo "Error: Unable to resolve $SERVER" >&2
-  exit 1
-fi
-
-exec 3<>/dev/tcp/"$IP"/"$PORT"
+exec 3<>/dev/tcp/"$SERVER"/"$PORT"
 trap 'exec 3>&-' EXIT
 
 while read -rt "$TIMEOUT" LINE <&3
