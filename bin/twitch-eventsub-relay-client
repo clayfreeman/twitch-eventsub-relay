@@ -13,21 +13,27 @@ SERVER="$1"
 PORT="$2"
 TIMEOUT="${3:-$DEFAULT_TIMEOUT}"
 
-exec 3<>/dev/tcp/"$SERVER"/"$PORT"
-trap 'exec 3>&-' EXIT
-
-while read -rt "$TIMEOUT" LINE <&3
+while true
 do
-  if [[ "$LINE" == "PING" ]]
-  then
-    echo "PONG" >&3
-  elif DATA=$(echo "${LINE#RELAY }" | base64 -d 2>/dev/null)
-  then
-    echo "$DATA"
-  else
-    break
-  fi
-done
+  exec {FD}<>/dev/tcp/"$SERVER"/"$PORT" || { sleep 5; continue; }
+  trap 'exec {FD}>&-' EXIT
 
-echo "Error: Connection was reset or timed out" >&2
-exit 1
+  while read -rt "$TIMEOUT" LINE <&$FD
+  do
+    if [[ "$LINE" == PING ]]
+    then
+      echo "PONG" >&$FD
+    elif [[ "$LINE" == RELAY\ * ]] && DATA=$(echo "${LINE#RELAY }" | base64 -d 2>/dev/null)
+    then
+      echo "$DATA"
+    else
+      echo "Warning: An error occurred while processing command: '$LINE'" >&2
+    fi
+  done
+
+  exec {FD}>&-
+  trap - EXIT
+
+  echo "Warning: Connection was reset or timed out; reconnecting ..." >&2
+  sleep 5
+done
