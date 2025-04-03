@@ -16,7 +16,7 @@ do
   do
     if [ -f "$DROPIN" ] && [ -x "$DROPIN" ]
     then
-      (echo "$DATA" | "$DROPIN" & disown) || true
+      echo "$DATA" | setsid --fork "$DROPIN"
     fi
   done
 done
