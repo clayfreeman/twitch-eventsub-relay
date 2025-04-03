@@ -15,8 +15,10 @@ TIMEOUT="${3:-$DEFAULT_TIMEOUT}"
 
 while true
 do
-  exec {FD}<>/dev/tcp/"$SERVER"/"$PORT" || { sleep 5; continue; }
+  exec {FD}<>/dev/tcp/"$SERVER"/"$PORT" || { echo "Warning: Failed to connect; retrying ..." >&2; sleep 3; continue; }
   trap 'exec {FD}>&-' EXIT
+
+  echo "Connected to $SERVER on port $PORT." >&2
 
   while read -rt "$TIMEOUT" LINE <&$FD
   do
@@ -35,5 +37,5 @@ do
   trap - EXIT
 
   echo "Warning: Connection was reset or timed out; reconnecting ..." >&2
-  sleep 5
+  sleep 3
 done
